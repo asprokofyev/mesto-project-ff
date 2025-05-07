@@ -10,9 +10,15 @@ function createCard(cardName, cardLink, deleteCard) {
   const cardInstance = cardTemplate
     .querySelector('.places__item')
     .cloneNode(true);
+
   // заполняем карточку данными
-  cardInstance.querySelector('.card__image').src = cardLink;
+  const cardImage = cardInstance.querySelector('.card__image');
+
+  cardImage.src = cardLink;
+  cardImage.alt = cardName;
+	
   cardInstance.querySelector('.card__title').textContent = cardName;
+
   // вешаем обработчик события на кнопку удаления
   cardInstance
     .querySelector('.card__delete-button')
@@ -26,7 +32,7 @@ function deleteCard(evt) {
   // событие срабатывает на кнопке
   // карточка является родителем для кнопки
   // значит чтобы удалить карточку, надо удалить родителя кнопки
-  evt.target.parentElement.remove();
+  evt.target.closest('.places__item').remove();
 }
 
 // @todo: Вывести карточки на страницу
