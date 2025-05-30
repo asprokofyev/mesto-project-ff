@@ -1,127 +1,178 @@
-// @todo: Темплейт карточки
-const cardTemplate = document.querySelector('#card-template').content;
+// Темплейт карточки
+const cardTemplate = document.querySelector("#card-template").content;
 
-// @todo: DOM узлы
+// DOM узлы
 // контейнер карточек
-const cardsContainer = document.querySelector('.places__list');
+const cardsContainer = document.querySelector(".places__list");
 // контейнер профиля
-const profileContainer = document.querySelector('.profile');
+const profileContainer = document.querySelector(".profile");
 // кнопка редактирования профиля
 const profileEditButton = profileContainer.querySelector(
-  '.profile__edit-button'
+  ".profile__edit-button"
 );
 // кнопка добавления карточки
 const profileAddCardButton = profileContainer.querySelector(
-  '.profile__add-button'
+  ".profile__add-button"
 );
-// массив попап окон
-const modals = document.querySelectorAll('.popup');
 
-// @todo: Функция создания карточки
+// массив модальных окон
+const modals = document.querySelectorAll(".popup");
+// модальное окно с формой добавления новой карточки
+const addCardModal = document.querySelector(".popup_type_new-card");
+// модальное окно для просмотра большой картинки
+const viewImageModal = document.querySelector(".popup_type_image");
+// модальное окно с формой редактирования профиля
+const editProfileModal = document.querySelector(".popup_type_edit");
+
+// форма добавления новой карточки
+const addCardForm = document.forms["new-place"];
+// форма редактирования профиля
+const editProfileForm = document.forms["edit-profile"];
+
+// Функция создания карточки
 function createCard(cardName, cardLink, deleteCard, likeCard, viewImage) {
   // создаем экземпляр карточки клонированем шаблона
   const cardInstance = cardTemplate
-    .querySelector('.places__item')
+    .querySelector(".places__item")
     .cloneNode(true);
 
   // заполняем карточку данными
-  const cardImage = cardInstance.querySelector('.card__image');
+  const cardImage = cardInstance.querySelector(".card__image");
 
   cardImage.src = cardLink;
   cardImage.alt = cardName;
 
   // вешаем обработчик события при клике на картинку
-  cardImage.addEventListener('click', viewImage);
+  cardImage.addEventListener("click", viewImage);
 
-  cardInstance.querySelector('.card__title').textContent = cardName;
+  cardInstance.querySelector(".card__title").textContent = cardName;
 
   // вешаем обработчик события на кнопку удаления
   cardInstance
-    .querySelector('.card__delete-button')
-    .addEventListener('click', deleteCard);
+    .querySelector(".card__delete-button")
+    .addEventListener("click", deleteCard);
 
   // вешаем обработчик события на кнопку лайка
   cardInstance
-    .querySelector('.card__like-button')
-    .addEventListener('click', likeCard);
+    .querySelector(".card__like-button")
+    .addEventListener("click", likeCard);
 
   return cardInstance;
 }
 
-// @todo: Функция удаления карточки
+// Функция удаления карточки
 function deleteCard(evt) {
   // событие срабатывает на кнопке
   // карточка является родителем для кнопки
   // значит чтобы удалить карточку, надо удалить родителя кнопки
-  evt.target.closest('.places__item').remove();
+  evt.target.closest(".places__item").remove();
 }
 
-// @todo: Функция лайка карточки
+// Функция лайка карточки
 function likeCard(evt) {
   // переключаем класс кнопки лайка
-  evt.target.classList.toggle('card__like-button_is-active');
+  evt.target.classList.toggle("card__like-button_is-active");
 }
 
-// @todo: Функция просмотра большой картинки
+// Функция просмотра большой картинки
 function viewImage(evt) {
-  console.log(evt.target);
+  const image = viewImageModal.querySelector(".popup__image");
+  const imageCaption = viewImageModal.querySelector(".popup__caption");
+
   // заполняем модальное окно данными картинки
+  image.src = evt.target.src;
+  image.alt = evt.target.alt;
+  imageCaption.textContent = evt.target.alt;
+
   // открываем модальное окно с большой картинкой
-  // вешаем обработчик на кнопку Escape на document
+  openModal(viewImageModal);
 }
 
-// @todo: Функция вывода формы добавления карточки
+// Функция вывода формы добавления карточки
 function openAddCardForm() {
-  const addCardForm = document.forms['new-place'];
-  console.log('openAddCardForm');
+  // открываем модальное окно
+  openModal(addCardModal);
+
+  // вешаем обработчик валидации полей
+
+  // вешаем обработчик отправки форму
 }
 
-// @todo: Функция валидации полей формы добавления карточки
+// Функция валидации полей формы добавления карточки
 function validateAddCardForm() {
-  const addCardForm = document.forms['new-place'];
-  console.log('validateAddCardForm');
+  console.log("validateAddCardForm");
 }
 
-// @todo: Функция обработки отправки формы добавления карточки
+// Функция обработки отправки формы добавления карточки
 function handleAddCardFormSubmit(evt) {
-  const addCardForm = document.forms['new-place'];
-  console.log('handleAddCardFormSubmit');
+  console.log("handleAddCardFormSubmit");
 }
 
-// @todo: Функция вывода формы редактирования профиля
+// Функция вывода формы редактирования профиля
 function openEditProfileForm() {
-  const editProfileForm = document.forms['new-edit-profile'];
-  console.log('openEditProfileForm');
+  const profileTitle = profileContainer.querySelector(".profile__title");
+  const profileDescription = profileContainer.querySelector(
+    ".profile__description"
+  );
+  const profileNameInput = editProfileForm.name;
+  const profileDescriptionInput = editProfileForm.description;
+
+  // получаем текущие данные профиля со страницы и заполняем поля формы
+  profileNameInput.value = profileTitle.textContent;
+  profileDescriptionInput.value = profileDescription.textContent;
+
+  // открываем модальное окно
+  openModal(editProfileModal);
+
+  // вешаем обработчик валидации полей
+
+  // вешаем обработчик отправки форму
 }
 
-// @todo: Функция валидации полей формы редактирования профиля
+// Функция валидации полей формы редактирования профиля
 function validateEditProfileForm() {
-  const editProfileForm = document.forms['new-edit-profile'];
-  console.log('validateEditProfileForm');
+  console.log("validateEditProfileForm");
 }
 
-// @todo: Функция обработки отправки формы редактирования профиля
+// Функция обработки отправки формы редактирования профиля
 function handleEditProfileFormSubmit(evt) {
-  const editProfileForm = document.forms['new-edit-profile'];
-  console.log('handleEditProfileFormSubmit');
+  console.log("handleEditProfileFormSubmit");
 }
 
-// @todo: Функция открытия модального окна
+// Функция открытия модального окна
 function openModal(modal) {
-  console.log('openModal');
+  // отображаем модальное окно
+  modal.classList.toggle("popup_is-opened");
+  // вешаем обработчик клавиши Escape на document
+  document.addEventListener("keydown", closeModalByEscape);
 }
 
-// @todo: Функция закрытия модального окна
+// Функция закрытия модального окна
 function closeModal(modal) {
-  console.log('closeModal');
+  // скрываем модальное окно
+  modal.classList.toggle("popup_is-opened");
+  // удаляем обработчик клавиши Escape с document
+  document.removeEventListener("keydown", closeModalByEscape);
 }
 
-// @todo: Функция вывода карточки
-function displayCard(container, card, place = 'end') {
-  if (place === 'start') {
+// Функция вывода карточки в нужное место
+function displayCard(container, card, place = "end") {
+  if (place === "start") {
     container.prepend(card);
   } else {
     container.append(card);
+  }
+}
+
+// Функция закрытия модального окна по нажатию клавиши Escape
+function closeModalByEscape(evt) {
+  if (evt.key === "Escape") {
+    // находим открытое модальное окно и закрываем его
+    modals.forEach((modal) => {
+      if (modal.classList.contains("popup_is-opened")) {
+        closeModal(modal);
+      }
+    });
   }
 }
 
@@ -152,7 +203,7 @@ function displayCard(container, card, place = 'end') {
   // валидация и сохранение данных формы
 */
 
-// @todo: Вывести карточки на страницу
+// Выводим карточки на страницу при первом запуске
 initialCards.forEach((item) =>
   displayCard(
     cardsContainer,
@@ -160,19 +211,19 @@ initialCards.forEach((item) =>
   )
 );
 
-// @todo: Прикрепляем обработчик к кнопке редактирования профиля
-profileEditButton.addEventListener('click', openEditProfileForm);
+// Прикрепляем обработчик к кнопке редактирования профиля
+profileEditButton.addEventListener("click", openEditProfileForm);
 
-// @todo: Прикрепляем обработчик к кнопке добавления карточки
-profileAddCardButton.addEventListener('click', openAddCardForm);
+// Прикрепляем обработчик к кнопке добавления карточки
+profileAddCardButton.addEventListener("click", openAddCardForm);
 
-// @todo: Прикрепляем обработчик клика на кнопку закрытия попапа или на оверлей
+//Прикрепляем обработчик клика на кнопку закрытия попапа или на оверлей
 modals.forEach((modal) => {
-  modal.addEventListener('click', (evt) => {
+  modal.addEventListener("click", (evt) => {
     // так мы проверим, что юзер кликнул на кнопку или оверлей
     if (
-      evt.target.classList.contains('.popup__close') ||
-      evt.target.classList.contains('.popup')
+      evt.target.classList.contains("popup__close") ||
+      evt.target.classList.contains("popup")
     ) {
       closeModal(modal); // и если это так, закрываем окно, на которое вешаем слушатель (он же на нем сработал)
     }
