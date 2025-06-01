@@ -1,3 +1,13 @@
+import {
+  createCard,
+  deleteCard,
+  displayCard,
+  initialCards,
+  likeCard,
+} from './cards.js';
+
+import { closeModal, modals, openModal } from './modal.js';
+
 // Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content;
 
@@ -21,8 +31,6 @@ const profileAddCardButton = profileContainer.querySelector(
   '.profile__add-button'
 );
 
-// массив модальных окон
-const modals = document.querySelectorAll('.popup');
 // модальное окно с формой добавления новой карточки
 const addCardModal = document.querySelector('.popup_type_new-card');
 // модальное окно для просмотра большой картинки
@@ -38,51 +46,6 @@ const editProfileForm = document.forms['edit-profile'];
 const profileNameInput = editProfileForm.name;
 // поле Занятие
 const profileDescriptionInput = editProfileForm.description;
-
-// Функция создания карточки
-function createCard(cardName, cardLink, deleteCard, likeCard, viewImage) {
-  // создаем экземпляр карточки клонированем шаблона
-  const cardInstance = cardTemplate
-    .querySelector('.places__item')
-    .cloneNode(true);
-
-  // заполняем карточку данными
-  const cardImage = cardInstance.querySelector('.card__image');
-
-  cardImage.src = cardLink;
-  cardImage.alt = cardName;
-
-  // Прикрепляем обработчик события при клике на картинку
-  cardImage.addEventListener('click', viewImage);
-
-  cardInstance.querySelector('.card__title').textContent = cardName;
-
-  // Прикрепляем обработчик события на кнопку удаления
-  cardInstance
-    .querySelector('.card__delete-button')
-    .addEventListener('click', deleteCard);
-
-  // Прикрепляем обработчик события на кнопку лайка
-  cardInstance
-    .querySelector('.card__like-button')
-    .addEventListener('click', likeCard);
-
-  return cardInstance;
-}
-
-// Функция удаления карточки
-function deleteCard(evt) {
-  // событие срабатывает на кнопке
-  // карточка является родителем для кнопки
-  // значит чтобы удалить карточку, надо удалить родителя кнопки
-  evt.target.closest('.places__item').remove();
-}
-
-// Функция лайка карточки
-function likeCard(evt) {
-  // переключаем класс кнопки лайка
-  evt.target.classList.toggle('card__like-button_is-active');
-}
 
 // Функция просмотра большой картинки
 function viewImage(evt) {
@@ -116,6 +79,7 @@ function handleAddCardFormSubmit(evt) {
   displayCard(
     cardsContainer,
     createCard(
+      cardTemplate,
       newCardName.value,
       newCardImageURL.value,
       deleteCard,
@@ -156,48 +120,18 @@ function handleEditProfileFormSubmit(evt) {
   editProfileForm.reset();
 }
 
-// Функция открытия модального окна
-function openModal(modal) {
-  // отображаем модальное окно
-  modal.classList.toggle('popup_is-opened');
-  // Прикрепляем обработчик клавиши Escape на document
-  document.addEventListener('keydown', closeModalByEscape);
-}
-
-// Функция закрытия модального окна
-function closeModal(modal) {
-  // скрываем модальное окно
-  modal.classList.toggle('popup_is-opened');
-  // удаляем обработчик клавиши Escape с document
-  document.removeEventListener('keydown', closeModalByEscape);
-}
-
-// Функция вывода карточки в нужное место
-function displayCard(container, card, place = 'end') {
-  if (place === 'start') {
-    container.prepend(card);
-  } else {
-    container.append(card);
-  }
-}
-
-// Функция закрытия модального окна по нажатию клавиши Escape
-function closeModalByEscape(evt) {
-  if (evt.key === 'Escape') {
-    // находим открытое модальное окно и закрываем его
-    modals.forEach((modal) => {
-      if (modal.classList.contains('popup_is-opened')) {
-        closeModal(modal);
-      }
-    });
-  }
-}
-
 // Выводим карточки на страницу при первом запуске
 initialCards.forEach((item) =>
   displayCard(
     cardsContainer,
-    createCard(item.name, item.link, deleteCard, likeCard, viewImage)
+    createCard(
+      cardTemplate,
+      item.name,
+      item.link,
+      deleteCard,
+      likeCard,
+      viewImage
+    )
   )
 );
 
