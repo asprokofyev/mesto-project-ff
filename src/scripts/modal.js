@@ -1,6 +1,3 @@
-// массив модальных окон
-export const modals = document.querySelectorAll('.popup');
-
 // Функция открытия модального окна
 export function openModal(modal) {
   // отображаем модальное окно
@@ -20,11 +17,17 @@ export function closeModal(modal) {
 // Функция закрытия модального окна по нажатию клавиши Escape
 export function closeModalByEscape(evt) {
   if (evt.key === 'Escape') {
-    // находим открытое модальное окно и закрываем его
-    modals.forEach((modal) => {
-      if (modal.classList.contains('popup_is-opened')) {
-        closeModal(modal);
-      }
-    });
+    closeModal(document.querySelector('.popup_is-opened'));
+  }
+}
+
+export function closeModalByClick(evt) {
+  // если кликнули на оверлей, то evt.target и есть модальное окно. закрываем его
+  if (evt.target.classList.contains('popup')) {
+    closeModal(evt.target);
+  }
+  // если клингули по кнопке "Закрыть" (крестику), то модальное окно это ближайший к ней объект с классом .popup
+  if (evt.target.classList.contains('popup__close')) {
+    closeModal(evt.target.closest('.popup'));
   }
 }

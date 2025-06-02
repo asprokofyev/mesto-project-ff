@@ -1,12 +1,8 @@
-import {
-  createCard,
-  deleteCard,
-  displayCard,
-  initialCards,
-  likeCard,
-} from './cards.js';
+import { initialCards } from './cards.js';
 
-import { closeModal, modals, openModal } from './modal.js';
+import { createCard, deleteCard, displayCard, likeCard } from './card.js';
+
+import { closeModal, closeModalByClick, openModal } from './modal.js';
 
 // Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content;
@@ -31,6 +27,8 @@ const profileAddCardButton = profileContainer.querySelector(
   '.profile__add-button'
 );
 
+// массив модальных окон
+const modals = document.querySelectorAll('.popup');
 // модальное окно с формой добавления новой карточки
 const addCardModal = document.querySelector('.popup_type_new-card');
 // модальное окно для просмотра большой картинки
@@ -143,15 +141,7 @@ profileAddCardButton.addEventListener('click', openAddCardForm);
 
 //Прикрепляем обработчик клика на кнопку закрытия попапа или на оверлей
 modals.forEach((modal) => {
-  modal.addEventListener('click', (evt) => {
-    // так мы проверим, что юзер кликнул на кнопку или оверлей
-    if (
-      evt.target.classList.contains('popup__close') ||
-      evt.target.classList.contains('popup')
-    ) {
-      closeModal(modal); // и если это так, закрываем окно, на которое вешаем слушатель (он же на нем сработал)
-    }
-  });
+  modal.addEventListener('click', closeModalByClick);
 });
 
 // Прикрепляем обработчик отправки формы редактирвоания профиля
