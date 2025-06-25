@@ -6,10 +6,7 @@ import { closeModal, closeModalByClick, openModal } from "./modal.js";
 
 import { enableValidation, clearValidation } from "./validation.js";
 
-// данные для работы с сервером
-const groupId = "wff-cohort-41";
-const myToken = "3f733f72-cb5d-49ce-aae5-bd2f7b148895";
-const serverUrl = "https://mesto.nomoreparties.co";
+import { getInitialCards } from "./api.js";
 
 // Данные пользователя
 const userData = {
