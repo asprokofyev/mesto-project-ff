@@ -1,27 +1,100 @@
 // данные для работы с сервером
 const apiConfig = {
-  baseUrl: "https://nomoreparties.co/v1/cohort-42",
+  baseUrl: 'https://nomoreparties.co/v1/wff-cohort-41/',
   headers: {
-    authorization: "3f733f72-cb5d-49ce-aae5-bd2f7b148895",
-    "Content-Type": "application/json",
+    authorization: '3f733f72-cb5d-49ce-aae5-bd2f7b148895',
+    'Content-Type': 'application/json',
   },
 };
 
-export const getInitialCards = () => {
-  return fetch("https://nomoreparties.co/v1/cohort-42/cards", {
-    headers: {
-      authorization: "c56e30dc-2883-4270-a59e-b2f7bae969c6",
-    },
+export function getInitialCards() {
+  return fetch(apiConfig.baseUrl + 'cards', {
+    method: 'GET',
+    headers: apiConfig.headers,
   })
-    .then((res) => res.json())
-    .then((result) => {
-      console.log(result);
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Что-то пошло не так: ${res.status}`);
+    })
+    .catch((err) => {
+      console.log(err);
     });
-};
+}
 
-// const groupId = "wff-cohort-41";
-// const myToken = "3f733f72-cb5d-49ce-aae5-bd2f7b148895";
-// const serverUrl = "https://mesto.nomoreparties.co";
+export function getUserInfo() {
+  return fetch(apiConfig.baseUrl + 'users/me', {
+    method: 'GET',
+    headers: apiConfig.headers,
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Что-то пошло не так: ${res.status}`);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+export function updateUserInfo(user) {
+  return fetch(apiConfig.baseUrl + 'users/me', {
+    method: 'PATCH',
+    headers: apiConfig.headers,
+    body: JSON.stringify({
+      name: user.name,
+      about: user.about,
+    }),
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Что-то пошло не так: ${res.status}`);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+export function saveNewCard(cardName, cardLink) {
+  return fetch(apiConfig.baseUrl + 'cards', {
+    method: 'POST',
+    headers: apiConfig.headers,
+    body: JSON.stringify({
+      name: cardName,
+      link: cardLink,
+    }),
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Что-то пошло не так: ${res.status}`);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+export function deleteCardFromServer(cardId) {
+  return fetch(apiConfig.baseUrl + 'cards/' + cardId, {
+    method: 'DELETE',
+    headers: apiConfig.headers,
+  })
+    .then((res) => {
+      if (res.ok) {
+        console.log(res.json());
+        return res.json();
+      }
+      return Promise.reject(`Что-то пошло не так: ${res.status}`);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
 
 // function updateQuote() {
 //   fetch("https://api.kanye.rest")
