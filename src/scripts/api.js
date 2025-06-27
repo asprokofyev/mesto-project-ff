@@ -11,32 +11,24 @@ export function getInitialCards() {
   return fetch(apiConfig.baseUrl + "cards", {
     method: "GET",
     headers: apiConfig.headers,
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Что-то пошло не так: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Что-то пошло не так: ${res.status}`);
+  });
 }
 
 export function getUserInfo() {
   return fetch(apiConfig.baseUrl + "users/me", {
     method: "GET",
     headers: apiConfig.headers,
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Что-то пошло не так: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Что-то пошло не так: ${res.status}`);
+  });
 }
 
 export function updateUserInfo(user) {
@@ -47,16 +39,12 @@ export function updateUserInfo(user) {
       name: user.name,
       about: user.about,
     }),
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Что-то пошло не так: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Что-то пошло не так: ${res.status}`);
+  });
 }
 
 export function updateUserAvatar(avatarUrl) {
@@ -66,16 +54,12 @@ export function updateUserAvatar(avatarUrl) {
     body: JSON.stringify({
       avatar: avatarUrl,
     }),
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Что-то пошло не так: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Что-то пошло не так: ${res.status}`);
+  });
 }
 
 export function saveNewCard(cardName, cardLink) {
@@ -86,72 +70,46 @@ export function saveNewCard(cardName, cardLink) {
       name: cardName,
       link: cardLink,
     }),
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Что-то пошло не так: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Что-то пошло не так: ${res.status}`);
+  });
 }
 
 export function deleteCardFromServer(cardId) {
   return fetch(apiConfig.baseUrl + "cards/" + cardId, {
     method: "DELETE",
     headers: apiConfig.headers,
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.status;
-      }
-      return Promise.reject(`Что-то пошло не так: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  }).then((res) => {
+    if (res.ok) {
+      return res.status;
+    }
+    return Promise.reject(`Что-то пошло не так: ${res.status}`);
+  });
 }
 
 export function deleteLike(cardId) {
   return fetch(apiConfig.baseUrl + "cards/likes/" + cardId, {
     method: "DELETE",
     headers: apiConfig.headers,
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Что-то пошло не так: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Что-то пошло не так: ${res.status}`);
+  });
 }
 
 export function addLike(cardId) {
   return fetch(apiConfig.baseUrl + "cards/likes/" + cardId, {
     method: "PUT",
     headers: apiConfig.headers,
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Что-то пошло не так: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}
-
-// Функция замены текста на кнопке формы на время сохранения информации на сервер
-export function renderLoading(isLoading, formElement) {
-  let buttonElement = formElement.querySelector(".popup__button");
-  if (isLoading) {
-    buttonElement.textContent = "Сохранение...";
-  } else {
-    buttonElement.textContent = "Сохранить";
-  }
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Что-то пошло не так: ${res.status}`);
+  });
 }

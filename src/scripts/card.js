@@ -70,15 +70,6 @@ export function iLikeThis(likes, myId) {
   return isLike;
 }
 
-// Функция вывода карточки в нужное место
-export function displayCard(container, card, place = "end") {
-  if (place === "start") {
-    container.prepend(card);
-  } else {
-    container.append(card);
-  }
-}
-
 // Функция удаления карточки
 export function deleteCardFromPage(cardElement) {
   cardElement.remove();
