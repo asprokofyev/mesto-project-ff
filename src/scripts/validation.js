@@ -18,6 +18,7 @@ export function clearValidation(formElement, config) {
   // скрываем сообщения об ошибках для всех полей формы
   inputList.forEach((inputElement) => {
     hideInputError(formElement, inputElement, config);
+    inputElement.setCustomValidity('');
   });
   // делаем кнопку неактивной
   buttonElement.disabled = true;
