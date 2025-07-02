@@ -1,11 +1,4 @@
-// данные для работы с сервером
-const apiConfig = {
-  baseUrl: 'https://nomoreparties.co/v1/wff-cohort-41/',
-  headers: {
-    authorization: '3f733f72-cb5d-49ce-aae5-bd2f7b148895',
-    'Content-Type': 'application/json',
-  },
-};
+import { apiConfig } from './utils/constants.js';
 
 export function getInitialCards() {
   return fetch(apiConfig.baseUrl + 'cards', {
