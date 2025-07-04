@@ -1,6 +1,3 @@
-// Темплейт карточки
-export const cardTemplate = document.querySelector('#card-template').content;
-
 // DOM узлы
 // контейнер карточек
 export const cardsContainer = document.querySelector('.places__list');

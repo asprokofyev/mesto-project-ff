@@ -14,13 +14,6 @@ export function closeModal(modal) {
   document.removeEventListener('keydown', closeModalByEscape);
 }
 
-// Функция закрытия модального окна по нажатию клавиши Escape
-export function closeModalByEscape(evt) {
-  if (evt.key === 'Escape') {
-    closeModal(document.querySelector('.popup_is-opened'));
-  }
-}
-
 export function closeModalByClick(evt) {
   // если кликнули на оверлей, то evt.target и есть модальное окно. закрываем его
   if (evt.target.classList.contains('popup')) {
@@ -29,5 +22,12 @@ export function closeModalByClick(evt) {
   // если клингули по кнопке "Закрыть" (крестику), то модальное окно это ближайший к ней объект с классом .popup
   if (evt.target.classList.contains('popup__close')) {
     closeModal(evt.target.closest('.popup'));
+  }
+}
+
+// Функция закрытия модального окна по нажатию клавиши Escape
+function closeModalByEscape(evt) {
+  if (evt.key === 'Escape') {
+    closeModal(document.querySelector('.popup_is-opened'));
   }
 }

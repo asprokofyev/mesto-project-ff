@@ -1,42 +1,44 @@
+// получение экземпляра карточки из шаблона
+function getCardTemplate() {
+  return document
+    .querySelector('#card-template')
+    .content.querySelector('.places__item')
+    .cloneNode(true);
+}
+
 // Функция создания карточки
 export function createCard(
-  cardTemplate,
-  handleDeleteCard,
-  handleLikeCard,
-  viewImage,
-  isLiked = false,
-  isDeleted = true,
-  cardItem
+  cardItem,
+  { onDeleteCard, onLikeCard, onViewImage },
+  { isLiked, isDeleted }
 ) {
   // создаем экземпляр карточки клонированем шаблона
-  const cardInstance = cardTemplate
-    .querySelector(".places__item")
-    .cloneNode(true);
+  const cardInstance = getCardTemplate();
 
   // заполняем карточку данными
-  const cardImage = cardInstance.querySelector(".card__image");
-  const likesCounter = cardInstance.querySelector(".card__like-counter");
-  const likeButton = cardInstance.querySelector(".card__like-button");
+  const cardImage = cardInstance.querySelector('.card__image');
+  const likesCounter = cardInstance.querySelector('.card__like-counter');
+  const likeButton = cardInstance.querySelector('.card__like-button');
 
   cardImage.src = cardItem.link;
   cardImage.alt = cardItem.name;
   likesCounter.textContent = cardItem.likes.length;
 
   // Прикрепляем обработчик события при клике на картинку
-  cardImage.addEventListener("click", viewImage);
+  cardImage.addEventListener('click', onViewImage);
 
-  cardInstance.querySelector(".card__title").textContent = cardItem.name;
+  cardInstance.querySelector('.card__title').textContent = cardItem.name;
 
   // Если карточку можно удалить, то прикрепляем обработчик события на кнопку удаления
   if (isDeleted) {
     cardInstance
-      .querySelector(".card__delete-button")
-      .addEventListener("click", () => {
-        handleDeleteCard(cardItem._id, cardInstance);
+      .querySelector('.card__delete-button')
+      .addEventListener('click', () => {
+        onDeleteCard(cardItem._id, cardInstance);
       });
   } else {
     // иначе скрываем кнопку удаления
-    cardInstance.querySelector(".card__delete-button").style.display = "none";
+    cardInstance.querySelector('.card__delete-button').style.display = 'none';
   }
 
   // если владелец карточки ранее лайкнул карточки, то надо это отобразить
@@ -44,8 +46,8 @@ export function createCard(
     likeCard(likeButton);
   }
   // Прикрепляем обработчик события на кнопку лайка
-  likeButton.addEventListener("click", () => {
-    handleLikeCard(cardItem._id, likeButton, likesCounter, isLiked);
+  likeButton.addEventListener('click', () => {
+    onLikeCard(cardItem._id, likeButton, likesCounter, isLiked);
   });
 
   return cardInstance;
@@ -54,7 +56,7 @@ export function createCard(
 // Функция отображения/скытия лайка карточки
 export function likeCard(likeButtonElement) {
   // переключаем класс кнопки лайка
-  likeButtonElement.classList.toggle("card__like-button_is-active");
+  likeButtonElement.classList.toggle('card__like-button_is-active');
 }
 
 // Функция проверки ставил я лайк карточке или нет

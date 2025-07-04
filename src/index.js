@@ -4,7 +4,6 @@ import {
   addCardForm,
   addCardModal,
   avatarUrlInput,
-  cardTemplate,
   cardsContainer,
   confirmDeleteCard,
   confirmDeleteCardForm,
@@ -91,13 +90,13 @@ function handleAddCardFormSubmit(evt) {
       displayCard(
         cardsContainer,
         createCard(
-          cardTemplate,
-          handleDeleteCard,
-          handleLikeCard,
-          viewImage,
-          false,
-          true,
-          card
+          card,
+          {
+            onDeleteCard: handleDeleteCard,
+            onLikeCard: handleLikeCard,
+            onViewImage: viewImage,
+          },
+          { isLiked: false, isDeleted: true }
         ),
         'start'
       );
@@ -230,7 +229,7 @@ function handleConfirmDeleteCard(evt) {
 }
 
 // Функция обработки клика по кнопке лайка
-export function handleLikeCard(
+function handleLikeCard(
   cardId,
   likeButtonElement,
   likesCounterElement,
@@ -267,17 +266,20 @@ export function handleLikeCard(
 
 // Функция вывода всех карточек на страницу
 function displayAllCards(cards) {
-  cards.forEach((item) =>
+  cards.forEach((card) =>
     displayCard(
       cardsContainer,
       createCard(
-        cardTemplate,
-        handleDeleteCard,
-        handleLikeCard,
-        viewImage,
-        iLikeThis(item.likes, userData._id),
-        item.owner._id === userData._id,
-        item
+        card,
+        {
+          onDeleteCard: handleDeleteCard,
+          onLikeCard: handleLikeCard,
+          onViewImage: viewImage,
+        },
+        {
+          isLiked: iLikeThis(card.likes, userData._id),
+          isDeleted: card.owner._id === userData._id,
+        }
       )
     )
   );
